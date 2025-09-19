@@ -162,6 +162,123 @@ main {
   overflow: hidden;
 }
 
+/* Token input section */
+.token-input-section {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.token-input-section h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.token-input-section p {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.token-form {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.token-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  background: white;
+  transition: border-color 0.2s;
+}
+
+.token-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.token-help {
+  margin-top: 1rem;
+}
+
+.token-help details {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.token-help summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.help-content {
+  margin-top: 1rem;
+}
+
+.help-content code {
+  background: #e9ecef;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.help-content pre {
+  background: #e9ecef;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+
+/* Verification controls */
+.verification-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.reset-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.reset-btn:hover {
+  background: #5a6268;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .App-header {
@@ -186,6 +303,18 @@ main {
   
   .onfido-container h2 {
     font-size: 1.5rem;
+  }
+
+  .token-input-section {
+    padding: 0 1rem;
+  }
+  
+  .token-form {
+    padding: 1rem;
+  }
+  
+  .token-input {
+    font-size: 0.9rem;
   }
 }
 
