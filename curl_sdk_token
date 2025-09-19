@@ -1,0 +1,8 @@
+curl -X POST "https://api.eu.onfido.com/v3.6/sdk_token" \
+  -H "Authorization: Token token=api_sandbox.qECN4r_PMIB.Cic7z8zI_o57N-wJUvuTKy6zmCr4eEdH" \
+  -H "Content-Type: application/json" \
+  -H "Referer: http://localhost:3000/" \
+  --data-raw '{
+    "applicant_id": "113b0123-2a0e-4c21-ad5f-03243ad6d702",
+    "referrer": "http://localhost:3000/*"
+  }'
