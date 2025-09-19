@@ -10,10 +10,9 @@ const OnfidoComponent = () => {
   const [verificationData, setVerificationData] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  // Function to get SDK token for manual flow
   const getSdkToken = async () => {
     try {
-      setDebugInfo('Getting SDK token for manual flow...');
+      setDebugInfo('Getting SDK token...');
       
       const apiToken = 'api_sandbox.qECN4r_PMIB.Cic7z8zI_o57N-wJUvuTKy6zmCr4eEdH';
       const applicantId = '113b0123-2a0e-4c21-ad5f-03243ad6d702';
@@ -51,43 +50,46 @@ const OnfidoComponent = () => {
       try {
         const sdkToken = "eyJhbGciOiJFUzUxMiJ9.eyJleHAiOjE3NTgyNjE1NDcsInBheWxvYWQiOnsiYXBwIjoiMTEzYjAxMjMtMmEwZS00YzIxLWFkNWYtMDMyNDNhZDZkNzAyIiwiY2xpZW50X3V1aWQiOiJhM2JkMDA0Ny1mN2E4LTQ0NmUtOWFhYS1mODMyMTJmMjA2MDciLCJpc19zYW5kYm94Ijp0cnVlLCJpc19zZWxmX3NlcnZpY2VfdHJpYWwiOnRydWUsImlzX3RyaWFsIjp0cnVlLCJyZWYiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsInNhcmRpbmVfc2Vzc2lvbiI6ImM3OTNjNDFiLTc3NDktNGY5Zi04MWZkLWEzOWQ2NjliYTJhZSJ9LCJ1dWlkIjoicGxhdGZvcm1fc3RhdGljX2FwaV90b2tlbl91dWlkIiwidXJscyI6eyJkZXRlY3RfZG9jdW1lbnRfdXJsIjoiaHR0cHM6Ly9zZGsub25maWRvLmNvbSIsInN5bmNfdXJsIjoiaHR0cHM6Ly9zeW5jLm9uZmlkby5jb20iLCJob3N0ZWRfc2RrX3VybCI6Imh0dHBzOi8vaWQub25maWRvLmNvbSIsImF1dGhfdXJsIjoiaHR0cHM6Ly9hcGkub25maWRvLmNvbSIsIm9uZmlkb19hcGlfdXJsIjoiaHR0cHM6Ly9hcGkub25maWRvLmNvbSIsInRlbGVwaG9ueV91cmwiOiJodHRwczovL2FwaS5vbmZpZG8uY29tIn19.MIGIAkIBxMR6pWmy7EzFSE0jOOYfp5zqZSOkabg1RjVlMrQm8ZOpBXsSQMD-AxzWcBPuEA2D0XEmEkUPa7nybRs7V5JCka4CQgGydbGq3XResyZqS6ypx34X74aD4Dnc13rbft9i8cJxvgmQmbefhwCOHvB7lD44OtaKsEZ3yZJ04UeSi90CSSBxCA"
         
-        setDebugInfo('Initializing Onfido SDK with manual steps...');
+        setDebugInfo('Initializing Onfido SDK...');
 
-        // Initialize Onfido SDK with manual step configuration
         onfidoRef.current = Onfido.init({
           token: sdkToken,
           containerId: 'onfido-mount',
-          // Define the steps manually
           steps: [
             {
               type: 'welcome',
               options: {
-                title: 'Identity Verification',
-                descriptions: ['Have your ID ready', 'Ensure good lighting'],
-                nextButton: 'Start verification'
+                title: 'Verify Your Identity',
+                descriptions: [
+                  'Please have a valid government-issued ID ready',
+                  'Ensure you have good lighting for face capture',
+                  'The process takes about 2-3 minutes'
+                ],
+                nextButton: 'Start Verification'
               }
             },
-            // {
-            //   type: 'document',
-            //   options: {
-            //     documentTypes: {
-            //       passport: true,
-            //       driving_licence: true,
-            //       national_identity_card: true
-            //     }
-            //   }
-            // },
+            {
+              type: 'document',
+              options: {
+                documentTypes: {
+                  passport: true,
+                  driving_licence: true,
+                  national_identity_card: true
+                },
+                forceCrossDevice: false
+              }
+            },
             {
               type: 'face',
               options: {
-                requestedVariant: 'motion'
+                requestedVariant: 'motion',
               }
             },
             {
               type: 'complete',
               options: {
                 message: 'Verification Complete!',
-                submessage: 'Thank you for verifying'
+                submessage: 'Your identity has been successfully verified. Thank you!'
               }
             }
           ],
@@ -95,7 +97,7 @@ const OnfidoComponent = () => {
             console.log('Onfido flow completed:', data);
             setVerificationData(data);
             setIsCompleted(true);
-            setDebugInfo('Verification completed successfully! Check the data below.');
+            setDebugInfo('Verification completed successfully!');
           },
           onError: (error) => {
             console.error('Onfido error:', error);
@@ -104,7 +106,7 @@ const OnfidoComponent = () => {
           }
         });
 
-        setDebugInfo('Onfido SDK initialized with manual steps!');
+        setDebugInfo('Onfido SDK initialized successfully!');
         setIsInitialized(true);
         
       } catch (err) {
@@ -116,17 +118,12 @@ const OnfidoComponent = () => {
 
     initializeOnfido();
 
-    // Cleanup function
     return () => {
       if (onfidoRef.current) {
         onfidoRef.current.tearDown();
       }
     };
   }, []);
-
-  const handleStartVerification = () => {
-    setDebugInfo('Verification flow should be visible in the container below');
-  };
 
   const handleSubmitToBackend = async () => {
     if (!verificationData) return;
@@ -141,12 +138,12 @@ const OnfidoComponent = () => {
 
   return (
     <div className="onfido-container">
-      <h2>Onfido Identity Verification</h2>
-      <p>Manual Steps: Document → Face Motion Capture</p>
+      <h2>Identity Verification</h2>
+      <p>Secure verification process using Onfido</p>
       
       {debugInfo && (
-        <div style={{ background: '#e7f3ff', padding: '10px', margin: '10px 0', borderRadius: '5px' }}>
-          <strong>Debug Info:</strong> {debugInfo}
+        <div className="debug-info">
+          <strong>Status:</strong> {debugInfo}
         </div>
       )}
       
@@ -157,24 +154,16 @@ const OnfidoComponent = () => {
         </div>
       ) : (
         <div>
-          <button 
-            onClick={handleStartVerification}
-            disabled={!isInitialized}
-            className="start-verification-btn"
-          >
-            {isInitialized ? 'Verification Ready' : 'Initializing...'}
-          </button>
-          
           {isCompleted && verificationData && (
-            <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-              <h3>✅ Verification Completed!</h3>
-              <p>Verification data received. You can now:</p>
-              <button onClick={handleSubmitToBackend} className="start-verification-btn">
-                Submit to Backend
+            <div className="success-message">
+              <h3>✅ Verification Complete!</h3>
+              <p>Your identity has been successfully verified.</p>
+              <button onClick={handleSubmitToBackend} className="submit-btn">
+                Submit Data
               </button>
-              <details style={{ marginTop: '10px' }}>
+              <details className="data-details">
                 <summary>View Verification Data</summary>
-                <pre style={{ background: '#f5f5f5', padding: '10px', marginTop: '10px', overflow: 'auto' }}>
+                <pre className="data-preview">
                   {JSON.stringify(verificationData, null, 2)}
                 </pre>
               </details>
